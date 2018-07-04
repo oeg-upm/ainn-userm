@@ -34,8 +34,15 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 	} else {
 		log.Println("username is not passed")
 	}
-
+	//testDB()
+	var jss map[string]interface{}
+	jss = make(map[string]interface{})
+	jss["k1"] = "v1"
+	//addToDB("test", jss)
+	added := addUserToDB(user)
+	log.Println(added)
 	fmt.Fprintf(w, "login post ")
+
 }
 
 func homeGET(w http.ResponseWriter, r *http.Request) {
