@@ -28,12 +28,12 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 			log.Printf("password passed")
 			user = User{Username: username, Password: password}
 			log.Printf("user obj is created %s", user.Username)
+		} else {
+			log.Println("password is not passed")
 		}
+	} else {
+		log.Println("username is not passed")
 	}
-
-	// else{
-	// 	log.Println("not passed")
-	// }
 
 	// for key, value := range r.Form {
 	// 	fmt.Printf("%s = %s \n", key, value)
