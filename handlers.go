@@ -35,23 +35,6 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 		log.Println("username is not passed")
 	}
 
-	// for key, value := range r.Form {
-	// 	fmt.Printf("%s = %s \n", key, value)
-	// }
-
-	// err := r.ParseForm()
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// v := req.Form
-	// username := r.Form.Post("username")
-	// password := r.Form.Post("password")
-	// var user User
-	// err = decoder.Decode(&user)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// log.Println(user.Username)
 	fmt.Fprintf(w, "login post ")
 }
 
