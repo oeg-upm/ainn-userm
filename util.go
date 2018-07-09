@@ -1,16 +1,18 @@
 package main
 
 import (
+	"crypto/md5"
+	"fmt"
+	"io"
 	"math/rand"
 	"time"
 )
 
 func encrypt(raw_data string) string {
-	//  h := md5.New()
-	//io.WriteString(h, "The fog is getting thicker!")
-	//io.WriteString(h, "And Leon's getting laaarger!")
-	//fmt.Printf("%x", h.Sum(nil))
-	return raw_data
+	h := md5.New()
+	io.WriteString(h, raw_data)
+	fmt.Printf("%x", h.Sum(nil))
+	return string(h.Sum(nil))
 }
 
 /*source: https://stackoverflow.com/questions/22892120/how-to-generate-a-random-string-of-a-fixed-length-in-golang*/
