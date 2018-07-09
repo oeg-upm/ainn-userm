@@ -87,7 +87,6 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(responseJ)
-	//fmt.Fprintf(w, "login post ")
 }
 
 func homeGET(w http.ResponseWriter, r *http.Request) {
