@@ -71,7 +71,9 @@ func loginPOST(w http.ResponseWriter, r *http.Request) {
 				if user.Password == password {
 					log.Println("loginPOST> password is correct")
 					responseJ["message"] = "logged in successfully"
-					w.WriteHeader(http.StatusCreated)
+					renewUserToken(user)
+					responseJ["token"] = user.TokenCode
+					w.WriteHeader(http.StatusOK)
 				} else {
 					log.Println("loginPOST> password does not match")
 					responseJ["error"] = "password does not match"

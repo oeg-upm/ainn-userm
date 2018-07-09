@@ -48,6 +48,20 @@ func addStructToDB(collection_name string, doc interface{}) bool {
 	return true
 }
 
+func updateWithStructDB(collection_name string, filter *bson.Document, doc interface{}) bool {
+	db := getDB()
+	if db == nil {
+		return false
+	}
+	collection := db.Collection(collection_name)
+	_, err := collection.UpdateOne(context.Background(), filter, doc)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	return true
+}
+
 func addToDB(collection_name string, doc map[string]interface{}) bool {
 	db := getDB()
 	if db == nil {
