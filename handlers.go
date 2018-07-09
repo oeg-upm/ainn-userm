@@ -12,6 +12,7 @@ func registerPOST(w http.ResponseWriter, r *http.Request) {
 	var username string
 	var password string
 	var user User
+	responseJ := make(map[string]string)
 	log.Println("loginPOST")
 	r.ParseForm()
 	if _, ok = r.Form["username"]; ok {
@@ -21,16 +22,27 @@ func registerPOST(w http.ResponseWriter, r *http.Request) {
 			password = r.Form["password"][0]
 			log.Printf("password passed")
 			user = User{Username: username, Password: password}
+			added := addUserToDB(user)
+			if added {
+				responseJ["message"] = "User is created successfully"
+				w.WriteHeader(http.StatusCreated)
+			} else {
+				responseJ["error"] = "Database error"
+				w.WriteHeader(http.StatusInternalServerError)
+			}
 			log.Printf("user obj is created %s", user.Username)
 		} else {
-			log.Println("password is not passed")
+			log.Println("Password is not passed")
+			responseJ["error"] = "password is not passed"
+			w.WriteHeader(http.StatusBadRequest)
 		}
 	} else {
-		log.Println("username is not passed")
+		log.Println("Username is not passed")
+		responseJ["error"] = "username is not passed"
+		w.WriteHeader(http.StatusBadRequest)
 	}
-	added := addUserToDB(user)
-	log.Println(added)
-	fmt.Fprintf(w, "register post")
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(responseJ)
 }
 
 func loginPOST(w http.ResponseWriter, r *http.Request) {
