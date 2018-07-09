@@ -22,15 +22,22 @@ func registerPOST(w http.ResponseWriter, r *http.Request) {
 			password = r.Form["password"][0]
 			log.Printf("password passed")
 			user = User{Username: username, Password: password}
-			added := addUserToDB(user)
-			if added {
-				responseJ["message"] = "User is created successfully"
-				w.WriteHeader(http.StatusCreated)
+			userexists := getUserFromDB(username)
+			if userexists == nil {
+				added := addUserToDB(user)
+				if added {
+					log.Printf("user obj is created %s", user.Username)
+					responseJ["message"] = "User is created successfully"
+					w.WriteHeader(http.StatusCreated)
+				} else {
+					responseJ["error"] = "Database error"
+					w.WriteHeader(http.StatusInternalServerError)
+				}
 			} else {
-				responseJ["error"] = "Database error"
-				w.WriteHeader(http.StatusInternalServerError)
+				log.Println("username already taken")
+				responseJ["error"] = "Username already exists"
+				w.WriteHeader(http.StatusBadRequest)
 			}
-			log.Printf("user obj is created %s", user.Username)
 		} else {
 			log.Println("Password is not passed")
 			responseJ["error"] = "password is not passed"
