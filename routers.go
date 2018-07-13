@@ -10,6 +10,7 @@ func routers() {
 	mrouter := mux.NewRouter() //.StrictSlash(true)
 	mrouter.HandleFunc("/register", registerPOST).Methods("POST")
 	//mrouter.HandleFunc("/login", loginGET).Methods("GET")
+	mrouter.HandleFunc("/login", loginPOST).Methods("POST")
 	mrouter.HandleFunc("/", homeGET)
 	http.Handle("/", mrouter)
 }
